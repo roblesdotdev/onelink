@@ -3,6 +3,7 @@ import { redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Link, useFetcher, useSearchParams } from '@remix-run/react'
 import invariant from 'tiny-invariant'
+import { YournameInput } from '~/components/form'
 import { verifyCredentials } from '~/utils/auth.server'
 import { createUserSession, getSessionUser } from '~/utils/session.server'
 import { validatePassword, validateUsername } from '~/utils/validation'
@@ -26,14 +27,14 @@ type ActionData = {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
-  const { username, password, remember, redirectTo } =
+  const { yourname, password, remember, redirectTo } =
     Object.fromEntries(formData)
-  invariant(typeof username === 'string', 'username type invalid')
+  invariant(typeof yourname === 'string', 'username type invalid')
   invariant(typeof password === 'string', 'password type invalid')
   invariant(typeof redirectTo === 'string', 'redirectTo type invalid')
 
   const errors = {
-    username: validateUsername(username),
+    yourname: validateUsername(yourname),
     password: validatePassword(password),
   }
 
@@ -41,7 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json<ActionData>({ status: 'error', errors }, { status: 400 })
   }
 
-  const user = await verifyCredentials({ username, password })
+  const user = await verifyCredentials({ username: yourname, password })
   if (!user) {
     return json<ActionData>(
       { status: 'error', errors: { form: 'Invalid username or password' } },
@@ -68,23 +69,7 @@ export default function LoginRoute() {
       <fetcher.Form method="post" noValidate aria-describedby="form-error">
         <div className="mx-auto max-w-xl px-4 pt-16 pb-4">
           <h1 className="mb-4 text-xl font-bold">Login</h1>
-          <div className="flex flex-col py-2">
-            <label htmlFor="username">Username</label>
-            <input
-              className="w-full rounded-md px-2 py-3"
-              placeholder="Enter your username..."
-              type="text"
-              name="username"
-              id="username"
-              aria-describedby="username-error"
-              aria-invalid={Boolean(errors?.username)}
-            />
-            {errors?.username ? (
-              <span id="username-error" className="text-sm text-red-600">
-                {errors.username}
-              </span>
-            ) : null}
-          </div>
+          <YournameInput error={errors?.yourname} />
           <div className="flex flex-col py-2">
             <label htmlFor="password">Password</label>
             <input

@@ -3,6 +3,7 @@ import { json, redirect } from '@remix-run/node'
 import { Form, useLoaderData } from '@remix-run/react'
 import { Link } from '@remix-run/react'
 import invariant from 'tiny-invariant'
+import { YournameInput } from '~/components/form'
 import { sendEmail } from '~/utils/email.server'
 import { decrypt, encrypt } from '~/utils/encryption.server'
 import { getJoinInfoSession } from '~/utils/join.server'
@@ -182,27 +183,7 @@ function RegisterForm({ data }: { data: LoaderData }) {
     <Form method="post" noValidate aria-errormessage="form-error">
       <h2>Choose your username and enter your email to continue.</h2>
       <div className="py-2">
-        <div className="flex rounded-md bg-white text-lg ring-slate-900 focus-within:ring-2">
-          <p className="py-4 pl-3">
-            <label htmlFor="yourname">onelink.lite/</label>
-          </p>
-          <p className="py-4 pr-3">
-            <input
-              placeholder="your name"
-              name="yourname"
-              id="yourname"
-              className="w-full font-medium outline-none placeholder:font-normal"
-              aria-errormessage="yourname-error"
-              aria-invalid={Boolean(errors?.yourname)}
-              defaultValue={data.yourname}
-            />
-          </p>
-        </div>
-        {errors?.yourname ? (
-          <span id="yourname-error" className="text-sm text-red-600">
-            {errors.yourname}
-          </span>
-        ) : null}
+        <YournameInput error={data.errors?.yourname} yourname={data.yourname} />
       </div>
       <div className="flex flex-col py-2">
         <input

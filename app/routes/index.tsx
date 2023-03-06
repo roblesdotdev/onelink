@@ -3,6 +3,7 @@ import { json } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { Form } from '@remix-run/react'
 import invariant from 'tiny-invariant'
+import { YournameInput } from '~/components/form'
 import { getJoinInfoSession } from '~/utils/join.server'
 import { getSessionUser } from '~/utils/session.server'
 import { validateUsernameExistence } from '~/utils/validation'
@@ -55,19 +56,7 @@ export default function Index() {
           spellCheck="false"
           className="flex flex-wrap gap-2"
         >
-          <div className="flex rounded-sm bg-white text-lg ring-slate-900 focus-within:ring-2">
-            <p className="py-4 pl-3">
-              <label htmlFor="yourname">onelink.lite/</label>
-            </p>
-            <p className="py-4 pr-3">
-              <input
-                placeholder="your name"
-                name="yourname"
-                id="yourname"
-                className="w-full font-medium outline-none placeholder:font-normal"
-              />
-            </p>
-          </div>
+          <YournameInput />
           <button
             type="submit"
             className="whitespace-nowrap rounded-md bg-slate-900 px-3 py-4 text-white"

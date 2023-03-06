@@ -3,6 +3,7 @@ import { redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
+import { YournameInput } from '~/components/form'
 import { createUser } from '~/utils/auth.server'
 import { getJoinInfoSession } from '~/utils/join.server'
 import { createUserSession } from '~/utils/session.server'
@@ -71,18 +72,7 @@ export default function Join() {
       <fetcher.Form method="post" noValidate>
         <div className="mx-auto max-w-xl px-4 pt-16 pb-4">
           <h1 className="mb-4 text-xl font-bold">Just one step</h1>
-          <div className="flex flex-col py-2">
-            <label htmlFor="yourname">Your Name</label>
-            <input
-              className="w-full rounded-md px-2 py-3"
-              placeholder="Enter your username..."
-              type="text"
-              name="yourname"
-              id="yourname"
-              defaultValue={data.yourname}
-              readOnly
-            />
-          </div>
+          <YournameInput yourname={data.yourname} readonly />
           <div className="flex flex-col py-2">
             <label htmlFor="password">Password</label>
             <input
