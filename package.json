@@ -1,0 +1,59 @@
+{
+  "name": "onelink-lite",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "remix build",
+    "dev": "binode --require ./mocks -- @remix-run/dev:remix dev",
+    "start": "remix-serve build",
+    "typecheck": "tsc -b",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ignore-path .ignore --ext js,jsx,ts,tsx .",
+    "prettier": "prettier --ignore-path .ignore \"**/*.+(js|jsx|css|ts|tsx)\"",
+    "format": "npm run prettier -- --list-different",
+    "format:write": "npm run prettier -- --write",
+    "validate": "run-s typecheck lint build",
+    "setup:husky": "husky install",
+    "setup:db": "prisma generate && prisma migrate deploy && prisma db seed",
+    "setup": "run-s setup:*"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.11.0",
+    "@remix-run/node": "^1.14.0",
+    "@remix-run/react": "^1.14.0",
+    "@remix-run/serve": "^1.14.0",
+    "bcryptjs": "^2.4.3",
+    "error-stack-parser": "^2.1.4",
+    "isbot": "^3.6.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tiny-invariant": "^1.3.1"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.14.0",
+    "@remix-run/eslint-config": "^1.14.0",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.8",
+    "binode": "^1.0.5",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-tailwindcss": "^3.10.1",
+    "husky": "^8.0.3",
+    "msw": "^1.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.4",
+    "prettier-plugin-tailwindcss": "^0.2.4",
+    "prisma": "^4.11.0",
+    "tailwindcss": "^3.2.7",
+    "tsx": "^3.12.3",
+    "typescript": "^4.8.4"
+  },
+  "engines": {
+    "node": "18",
+    "pnpm": ">=7.28"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed"
+  }
+}

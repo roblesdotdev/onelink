@@ -1,0 +1,17 @@
+.vscode/
+.DS_Store
+node_modules/
+
+/.cache
+/build
+/server-build
+/public/build
+/coverage
+
+app/styles
+
+package-lock.json
+package.json
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

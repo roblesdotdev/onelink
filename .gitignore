@@ -1,0 +1,15 @@
+node_modules
+
+/.cache
+/build
+/public/build
+/remix.init
+.env
+
+tsconfig.tsbuildinfo
+
+/prisma/*.db-journal
+/prisma/**/*.db
+/prisma/**/*.sqlite
+
+/mocks/fixtures/**/*.json
