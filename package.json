@@ -1,5 +1,5 @@
 {
-  "name": "onelink-lite",
+  "name": "onelink",
   "private": true,
   "sideEffects": false,
   "scripts": {

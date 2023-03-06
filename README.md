@@ -1,7 +1,7 @@
-### onelink-lite
+### onelink
 
-This app is created with
-the [quick-remix](https://github.com/roblesdotdev/quick-remix) stack.
+This app is created with the
+[quick-remix](https://github.com/roblesdotdev/quick-remix) stack.
 
 ### Dev
 
