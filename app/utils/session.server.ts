@@ -4,7 +4,6 @@ import type { User } from '~/types'
 
 const SESSION_SECRET = getRequiredServerEnvVar('SESSION_SECRET')
 const sessionIdKey = '__session_id__'
-const joinEmailSessionKey = '__join_token__'
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -99,25 +98,4 @@ export async function requireSessionUser(
     throw redirect('/login', { headers: await getHeaders() })
   }
   return user
-}
-
-export async function createJoinSession({
-  request,
-  email,
-}: {
-  request: Request
-  email: string
-}) {
-  const { session } = await getSession(request)
-  session.set(joinEmailSessionKey, email)
-  return redirect('/join', {
-    headers: {
-      'Set-Cookie': await sessionStorage.commitSession(session),
-    },
-  })
-}
-
-export async function getJoinSession(request: Request) {
-  const { session } = await getSession(request)
-  return session.get(joinEmailSessionKey)
 }

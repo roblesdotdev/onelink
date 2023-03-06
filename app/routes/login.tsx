@@ -10,7 +10,7 @@ import { validatePassword, validateUsername } from '~/utils/validation'
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getSessionUser(request)
 
-  if (user) return redirect('/')
+  if (user) return redirect('/admin')
 
   return json({})
 }

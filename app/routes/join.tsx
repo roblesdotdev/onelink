@@ -1,34 +1,40 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { useFetcher } from '@remix-run/react'
+import { useFetcher, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { createUser } from '~/utils/auth.server'
-import { createUserSession, getJoinSession } from '~/utils/session.server'
-import {
-  validateConfirmPassword,
-  validateEmail,
-  validatePassword,
-  validateUsername,
-  validateUsernameExistence,
-} from '~/utils/validation'
+import { getJoinInfoSession } from '~/utils/join.server'
+import { createUserSession } from '~/utils/session.server'
+import { validateConfirmPassword, validatePassword } from '~/utils/validation'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const joinEmail = await getJoinSession(request)
+  const joinInfoSession = await getJoinInfoSession(request)
+  const joinEmail = joinInfoSession.getEmail()
+  const yourname = joinInfoSession.getYourname()
 
-  if (!joinEmail || validateEmail(joinEmail)) {
-    return redirect('/signup')
+  if (!joinEmail || !yourname) {
+    joinInfoSession.flashError({
+      key: 'error-form',
+      error: 'Please enter a valid data',
+    })
+    return redirect('/signup', { headers: await joinInfoSession.getHeaders() })
   }
 
-  return json({})
+  return json({
+    joinEmail,
+    yourname,
+  })
 }
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
-  const email = await getJoinSession(request)
-  const { username, password, confirmPassword, termsAndConditions } =
-    Object.fromEntries(formData)
-  invariant(typeof username === 'string', 'username type is invalid')
+  const joinInfoSession = await getJoinInfoSession(request)
+  const email = joinInfoSession.getEmail()
+  const yourname = joinInfoSession.getYourname()
+  const { password, confirmPassword } = Object.fromEntries(formData)
+  invariant(typeof email === 'string', 'email type is invalid')
+  invariant(typeof yourname === 'string', 'yourname type is invalid')
   invariant(typeof password === 'string', 'password type is invalid')
   invariant(
     typeof confirmPassword === 'string',
@@ -36,21 +42,17 @@ export const action: ActionFunction = async ({ request }) => {
   )
 
   const errors = {
-    username:
-      validateUsername(username) || (await validateUsernameExistence(username)),
     password: validatePassword(password),
     confirmPassword: validateConfirmPassword(password, confirmPassword),
-    termsAndConditions:
-      termsAndConditions === 'on'
-        ? null
-        : 'You must agree to terms and conditions',
   }
 
   if (Object.values(errors).some(Boolean)) {
     return json({ status: 'error', errors }, { status: 400 })
   }
 
-  const user = await createUser({ email, username, password })
+  const user = await createUser({ email, username: yourname, password })
+
+  await joinInfoSession.destroy()
 
   return await createUserSession({
     request,
@@ -61,29 +63,25 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function Join() {
+  const data = useLoaderData()
   const fetcher = useFetcher()
   const errors = fetcher.data?.errors
   return (
     <div>
       <fetcher.Form method="post" noValidate>
         <div className="mx-auto max-w-xl px-4 pt-16 pb-4">
-          <h1 className="mb-4 text-xl font-bold">Register</h1>
+          <h1 className="mb-4 text-xl font-bold">Just one step</h1>
           <div className="flex flex-col py-2">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="yourname">Your Name</label>
             <input
               className="w-full rounded-md px-2 py-3"
               placeholder="Enter your username..."
               type="text"
-              name="username"
-              id="username"
-              aria-describedby="username-error"
-              aria-invalid={Boolean(errors?.username)}
+              name="yourname"
+              id="yourname"
+              defaultValue={data.yourname}
+              readOnly
             />
-            {errors?.username ? (
-              <span id="username-error" className="text-sm text-red-600">
-                {errors.username}
-              </span>
-            ) : null}
           </div>
           <div className="flex flex-col py-2">
             <label htmlFor="password">Password</label>
@@ -120,26 +118,6 @@ export default function Join() {
             ) : null}
           </div>
 
-          <div className="flex flex-col gap-2 py-2">
-            <div className="space-x-2">
-              <input
-                type="checkbox"
-                name="termsAndConditions"
-                id="termsAndConditions"
-              />
-              <label htmlFor="termsAndConditions">
-                I accept the terms and conditions
-              </label>
-            </div>
-            {errors?.termsAndConditions ? (
-              <span
-                id="termsAndConditions-error"
-                className="text-sm text-red-600"
-              >
-                {errors.termsAndConditions}
-              </span>
-            ) : null}
-          </div>
           <div className="mt-4">
             <button
               type="submit"
