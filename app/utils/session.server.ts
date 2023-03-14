@@ -1,6 +1,7 @@
 import { createCookieSessionStorage, redirect } from '@remix-run/node'
 import { getRequiredServerEnvVar, safeRedirect } from './misc'
 import type { User } from '~/types'
+import { getUserById } from './auth.server'
 
 const SESSION_SECRET = getRequiredServerEnvVar('SESSION_SECRET')
 const sessionIdKey = '__session_id__'
@@ -98,4 +99,13 @@ export async function requireSessionUser(
     throw redirect('/login', { headers: await getHeaders() })
   }
   return user
+}
+
+export async function requireUser(request: Request) {
+  const userId = await requireSessionUser(request)
+
+  const user = await getUserById(userId)
+  if (user) return user
+
+  throw await logout(request)
 }

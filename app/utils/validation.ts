@@ -30,3 +30,12 @@ export async function validateUsernameExistence(username: string) {
   const u = await db.user.findUnique({ where: { username } })
   return u ? 'Username is already taken' : null
 }
+
+export function validateUrl(url: string) {
+  const re = /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm
+  return !re.test(url) ? 'Invalid url' : null
+}
+
+export function validateTitle(title: string) {
+  return title.length < 5 ? 'Title is too short' : null
+}
