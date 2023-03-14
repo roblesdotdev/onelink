@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { createPassword, createUser } from './utils'
+import { createLink, createPassword, createUser } from './utils'
 
 const prisma = new PrismaClient()
 
@@ -13,7 +13,7 @@ async function seed() {
 
   console.time('👤 Create test user...')
   const userData = createUser('remixer')
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       ...userData,
       password: {
@@ -22,6 +22,21 @@ async function seed() {
     },
   })
   console.timeEnd('👤 Create test user...')
+
+  console.time('🔗 Create test links...')
+  const linksPeerUser = 6
+  await Promise.all(
+    Array.from({ length: linksPeerUser }, async () => {
+      const linkData = createLink()
+      await prisma.link.create({
+        data: {
+          ...linkData,
+          userId: user.id,
+        },
+      })
+    }),
+  )
+  console.timeEnd('🔗 Create test links...')
 
   console.timeEnd(`🌱 Database has been seeded`)
 }

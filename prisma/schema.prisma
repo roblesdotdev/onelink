@@ -17,10 +17,22 @@ model User {
   password  Password?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  links Link[]
 }
 
 model Password {
   user   User   @relation(references: [id], fields: [userId], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
   hash   String
+}
+
+model Link {
+  id     String @id @default(cuid())
+  user   User   @relation(references: [id], fields: [userId], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  url       String
+  title     String
+  published Boolean @default(true)
 }
