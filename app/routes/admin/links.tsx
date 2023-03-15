@@ -1,7 +1,8 @@
+import * as Switch from '@radix-ui/react-switch'
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useFetcher, useLoaderData, useSubmit } from '@remix-run/react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import invariant from 'tiny-invariant'
 import { CreateForm } from '~/components/forms'
 import {
@@ -44,6 +45,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
   if (action === 'toggle') {
     invariant(typeof linkId === 'string', 'linkId type is invalid')
+    console.log(published)
     await toggleLinkVisibility({ id: linkId, published: published === 'on' })
   }
 
@@ -69,6 +71,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Links() {
   const [isOpen, setIsOpen] = useState(false)
   const fetcher = useFetcher<LinksActionData>()
+  const toggleForm = useRef<HTMLFormElement>(null)
   const { links } = useLoaderData<LoaderData>()
   const submit = useSubmit()
 
@@ -91,6 +94,7 @@ export default function Links() {
                 <h2>{link.url}</h2>
               </div>
               <fetcher.Form
+                ref={toggleForm}
                 className="px-4 py-1"
                 method="post"
                 noValidate
@@ -98,11 +102,14 @@ export default function Links() {
               >
                 <input type="hidden" name="action" defaultValue="toggle" />
                 <input type="hidden" name="linkId" defaultValue={link.id} />
-                <input
-                  type="checkbox"
+                <Switch.Root
+                  id="airplane-mode"
                   defaultChecked={link.published}
                   name="published"
-                />
+                  className="relative h-6 w-10 rounded-full bg-gray-400 data-[state=checked]:bg-black"
+                >
+                  <Switch.Thumb className="block h-5 w-5 translate-x-[2px] rounded-full bg-white transition data-[state=checked]:translate-x-[18px]" />
+                </Switch.Root>
               </fetcher.Form>
             </div>
             <fetcher.Form className="mt-2 flex" method="post" noValidate>
