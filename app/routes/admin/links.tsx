@@ -1,8 +1,7 @@
-import * as Switch from '@radix-ui/react-switch'
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { useFetcher, useLoaderData, useSubmit } from '@remix-run/react'
-import { useRef, useState } from 'react'
+import { useFetcher, useLoaderData } from '@remix-run/react'
+import { useState } from 'react'
 import invariant from 'tiny-invariant'
 import { CreateForm } from '~/components/forms'
 import {
@@ -13,6 +12,8 @@ import {
 } from '~/utils/link.server'
 import { requireSessionUser, requireUser } from '~/utils/session.server'
 import { validateTitle, validateUrl } from '~/utils/validation'
+import DeleteForm from '~/components/forms/delete-form'
+import ToggleForm from '~/components/forms/toggle-form'
 
 type LoaderData = {
   links: Awaited<ReturnType<typeof getUserLinks>>
@@ -69,20 +70,18 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function Links() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [create, setCreate] = useState(false)
   const fetcher = useFetcher<LinksActionData>()
-  const toggleForm = useRef<HTMLFormElement>(null)
   const { links } = useLoaderData<LoaderData>()
-  const submit = useSubmit()
 
   return (
     <div>
-      <button className="mb-4 font-bold" onClick={() => setIsOpen(true)}>
+      <button className="mb-4 font-bold" onClick={() => setCreate(true)}>
         Add Link
       </button>
       <CreateForm
-        isOpen={isOpen}
-        closeModal={() => setIsOpen(false)}
+        isOpen={create}
+        closeModal={() => setCreate(false)}
         fetcher={fetcher}
       />
       <div>
@@ -93,30 +92,9 @@ export default function Links() {
                 <h1 className="font-bold">{link.title}</h1>
                 <h2>{link.url}</h2>
               </div>
-              <fetcher.Form
-                ref={toggleForm}
-                className="px-4 py-1"
-                method="post"
-                noValidate
-                onChange={e => submit(e.currentTarget, { replace: true })}
-              >
-                <input type="hidden" name="action" defaultValue="toggle" />
-                <input type="hidden" name="linkId" defaultValue={link.id} />
-                <Switch.Root
-                  id="airplane-mode"
-                  defaultChecked={link.published}
-                  name="published"
-                  className="relative h-6 w-10 rounded-full bg-gray-400 data-[state=checked]:bg-black"
-                >
-                  <Switch.Thumb className="block h-5 w-5 translate-x-[2px] rounded-full bg-white transition data-[state=checked]:translate-x-[18px]" />
-                </Switch.Root>
-              </fetcher.Form>
+              <ToggleForm published={link.published} linkId={link.id} />
             </div>
-            <fetcher.Form className="mt-2 flex" method="post" noValidate>
-              <input type="hidden" name="action" defaultValue="delete" />
-              <input type="hidden" name="linkId" defaultValue={link.id} />
-              <button type="submit">Delete</button>
-            </fetcher.Form>
+            <DeleteForm linkId={link.id} />
           </div>
         ))}
       </div>
