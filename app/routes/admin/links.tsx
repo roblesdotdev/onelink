@@ -1,8 +1,9 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useFetcher, useLoaderData, useSubmit } from '@remix-run/react'
-import { useEffect, useRef } from 'react'
+import { useState } from 'react'
 import invariant from 'tiny-invariant'
+import { CreateForm } from '~/components/forms'
 import {
   createLinks,
   deleteLink,
@@ -23,7 +24,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json<LoaderData>({ links })
 }
 
-type ActionData = {
+export type LinksActionData = {
   status: 'success' | 'error'
   errors?: {
     url?: string | null
@@ -56,86 +57,31 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     if (Object.values(errors).some(Boolean)) {
-      return json<ActionData>({ status: 'error', errors }, { status: 400 })
+      return json<LinksActionData>({ status: 'error', errors }, { status: 400 })
     }
 
     await createLinks({ url, title, userId })
   }
 
-  return json({})
+  return json<LinksActionData>({ status: 'success' })
 }
 
 export default function Links() {
-  const fetcher = useFetcher<ActionData>()
-  const errors = fetcher.data?.errors
-  const createFormRef = useRef<HTMLFormElement>(null)
+  const [isOpen, setIsOpen] = useState(false)
+  const fetcher = useFetcher<LinksActionData>()
   const { links } = useLoaderData<LoaderData>()
   const submit = useSubmit()
 
-  useEffect(() => {
-    if (!createFormRef) return
-    if (fetcher.state !== 'idle') createFormRef.current?.reset()
-  }, [fetcher])
-
   return (
     <div>
-      <h1 className="mb-4 font-bold">Add Link</h1>
-      <fetcher.Form
-        method="post"
-        noValidate
-        autoCapitalize="off"
-        autoComplete="off"
-      >
-        <input type="hidden" name="action" defaultValue="create" />
-        <div className="flex flex-col">
-          <label htmlFor="url">Url</label>
-          <input
-            className="w-full rounded-md px-2 py-3"
-            name="url"
-            id="url"
-            placeholder="https://example.com"
-            aria-errormessage="url-error"
-            aria-invalid={Boolean(errors?.url)}
-          />
-          {errors?.url ? (
-            <span id="url-error" className="text-sm text-red-600">
-              {errors.url}
-            </span>
-          ) : null}
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="title">Title</label>
-          <input
-            className="w-full rounded-md px-2 py-3"
-            name="title"
-            id="title"
-            placeholder="My awesome url..."
-            aria-errormessage="title-error"
-            aria-invalid={Boolean(errors?.title)}
-          />
-          {errors?.title ? (
-            <span id="title-error" className="text-sm text-red-600">
-              {errors.title}
-            </span>
-          ) : null}
-        </div>
-        {errors?.form ? (
-          <span id="title-error" className="text-sm text-red-600">
-            {errors.form}
-          </span>
-        ) : null}
-
-        <div className="py-4">
-          <button
-            disabled={fetcher.state !== 'idle'}
-            className="rounded-sm bg-black py-3 px-6 text-white disabled:bg-gray-700"
-            type="submit"
-          >
-            Create
-          </button>
-        </div>
-      </fetcher.Form>
-
+      <button className="mb-4 font-bold" onClick={() => setIsOpen(true)}>
+        Add Link
+      </button>
+      <CreateForm
+        isOpen={isOpen}
+        closeModal={() => setIsOpen(false)}
+        fetcher={fetcher}
+      />
       <div>
         {links.map(link => (
           <div key={link.id} className="rounded-md bg-white p-4 shadow">
