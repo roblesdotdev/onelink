@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@faker-js/faker': ^7.6.0
   '@prisma/client': ^4.11.0
+  '@reach/menu-button': ^0.18.0
   '@remix-run/dev': ^1.14.0
   '@remix-run/eslint-config': ^1.14.0
   '@remix-run/node': ^1.14.0
@@ -35,6 +36,7 @@ specifiers:
 
 dependencies:
   '@prisma/client': 4.11.0_prisma@4.11.0
+  '@reach/menu-button': 0.18.0_biqbaboplfbrettd7655fr4n2y
   '@remix-run/node': 1.14.0
   '@remix-run/react': 1.14.0_biqbaboplfbrettd7655fr4n2y
   '@remix-run/serve': 1.14.0
@@ -1977,6 +1979,118 @@ packages:
   /@prisma/engines/4.11.0:
     resolution: {integrity: sha512-0AEBi2HXGV02cf6ASsBPhfsVIbVSDC9nbQed4iiY5eHttW9ZtMxHThuKZE1pnESbr8HRdgmFSa/Kn4OSNYuibg==}
     requiresBuild: true
+
+  /@reach/auto-id/0.18.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-XwY1IwhM7mkHZFghhjiqjQ6dstbOdpbFLdggeke75u8/8icT8uEHLbovFUgzKjy9qPvYwZIB87rLiR8WdtOXCg==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+    dependencies:
+      '@reach/utils': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@reach/descendants/0.18.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-GXUxnM6CfrX5URdnipPIl3Tlc6geuz4xb4n61y4tVWXQX1278Ra9Jz9DMRN8x4wheHAysvrYwnR/SzAlxQzwtA==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+    dependencies:
+      '@reach/utils': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@reach/dropdown/0.18.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-LriXdVgxJoUhIQfS2r2DHYv3X6fHyplYxa9FmSwQIMXdESpE/P9Zsb1pVEObcNf3ZQBrl0L1bl/5rk7SpK7qfA==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+    dependencies:
+      '@reach/auto-id': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      '@reach/descendants': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      '@reach/polymorphic': 0.18.0_react@18.2.0
+      '@reach/popover': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      '@reach/utils': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@reach/menu-button/0.18.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-v1lj5rYSpavOKI4ipXj8OfvQmvVNAYXCv+UcltRkjOcWEKWADUUKkGX55wiUhsCsTGCJ7lGYz5LqOZrn3LP6PQ==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+      react-is: ^16.8.0 || 17.x
+    dependencies:
+      '@reach/dropdown': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      '@reach/polymorphic': 0.18.0_react@18.2.0
+      '@reach/popover': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      '@reach/utils': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@reach/observe-rect/1.2.0:
+    resolution: {integrity: sha512-Ba7HmkFgfQxZqqaeIWWkNK0rEhpxVQHIoVyW1YDSkGsGIXzcaW4deC8B0pZrNSSyLTdIk7y+5olKt5+g0GmFIQ==}
+    dev: false
+
+  /@reach/polymorphic/0.18.0_react@18.2.0:
+    resolution: {integrity: sha512-N9iAjdMbE//6rryZZxAPLRorzDcGBnluf7YQij6XDLiMtfCj1noa7KyLpEc/5XCIB/EwhX3zCluFAwloBKdblA==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@reach/popover/0.18.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-mpnWWn4w74L2U7fcneVdA6Fz3yKWNdZIRMoK8s6H7F8U2dLM/qN7AjzjEBqi6LXKb3Uf1ge4KHSbMixW0BygJQ==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+    dependencies:
+      '@reach/polymorphic': 0.18.0_react@18.2.0
+      '@reach/portal': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      '@reach/rect': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      '@reach/utils': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      tabbable: 5.3.3
+    dev: false
+
+  /@reach/portal/0.18.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-TImozRapd576ofRk30Le2L3lRTFXF1p47B182wnp5eMTdZa74JX138BtNGEPJFOyrMaVmguVF8SSwZ6a0fon1Q==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+    dependencies:
+      '@reach/utils': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@reach/rect/0.18.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Xk8urN4NLn3F70da/DtByMow83qO6DF6vOxpLjuDBqud+kjKgxAU9vZMBSZJyH37+F8mZinRnHyXtlLn5njQOg==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+    dependencies:
+      '@reach/observe-rect': 1.2.0
+      '@reach/utils': 0.18.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@reach/utils/0.18.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-KdVMdpTgDyK8FzdKO9SCpiibuy/kbv3pwgfXshTI6tEcQT1OOwj7BAksnzGC0rPz0UholwC+AgkqEl3EJX3M1A==}
+    peerDependencies:
+      react: ^16.8.0 || 17.x
+      react-dom: ^16.8.0 || 17.x
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /@remix-run/dev/1.14.0_@remix-run+serve@1.14.0:
     resolution: {integrity: sha512-EG9kG/rGSRucer+g5PJQ8lSMLtJNVVCpxVMzHOciGPRXjPK3pg5acOuOksJGvdiqgFX9UO5itielQZ81ZBy6jA==}
@@ -7507,6 +7621,10 @@ packages:
       '@pkgr/utils': 2.3.1
       tslib: 2.5.0
     dev: true
+
+  /tabbable/5.3.3:
+    resolution: {integrity: sha512-QD9qKY3StfbZqWOPLp0++pOrAVb/HbUi5xCc8cUo4XjP19808oaMiDzn0leBY5mCespIBM0CIZePzZjgzR83kA==}
+    dev: false
 
   /tailwindcss/3.2.7:
     resolution: {integrity: sha512-B6DLqJzc21x7wntlH/GsZwEXTBttVSl1FtCzC8WP4oBc/NKef7kaax5jeihkkCEWc831/5NDJ9gRNDK6NEioQQ==}
