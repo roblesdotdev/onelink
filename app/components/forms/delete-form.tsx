@@ -21,7 +21,11 @@ export default function DeleteForm({ linkId }: { linkId: string }) {
             <button type="submit" className="text-red-600">
               Confirm
             </button>
-            <button type="button" className="underline">
+            <button
+              type="button"
+              className="underline"
+              onClick={() => setOpen(false)}
+            >
               Cancel
             </button>
           </div>
