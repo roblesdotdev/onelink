@@ -1,7 +1,6 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { useFetcher, useLoaderData } from '@remix-run/react'
-import { useState } from 'react'
+import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { CreateForm } from '~/components/forms'
 import {
@@ -70,20 +69,11 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function Links() {
-  const [create, setCreate] = useState(false)
-  const fetcher = useFetcher<LinksActionData>()
   const { links } = useLoaderData<LoaderData>()
 
   return (
     <div>
-      <button className="mb-4 font-bold" onClick={() => setCreate(true)}>
-        Add Link
-      </button>
-      <CreateForm
-        isOpen={create}
-        closeModal={() => setCreate(false)}
-        fetcher={fetcher}
-      />
+      <CreateForm />
       <div>
         {links.map(link => (
           <div key={link.id} className="rounded-md bg-white p-4 shadow">
