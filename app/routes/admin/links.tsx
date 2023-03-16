@@ -2,7 +2,7 @@ import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
-import { CreateForm } from '~/components/forms'
+import { CreateForm, DeleteForm, ToggleForm } from '~/components/forms'
 import {
   createLinks,
   deleteLink,
@@ -11,8 +11,6 @@ import {
 } from '~/utils/link.server'
 import { requireSessionUser, requireUser } from '~/utils/session.server'
 import { validateTitle, validateUrl } from '~/utils/validation'
-import DeleteForm from '~/components/forms/delete-form'
-import ToggleForm from '~/components/forms/toggle-form'
 
 type LoaderData = {
   links: Awaited<ReturnType<typeof getUserLinks>>
