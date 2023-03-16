@@ -1,9 +1,11 @@
+import * as Popover from '@radix-ui/react-popover'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import type { LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Link, NavLink, Outlet, useNavigate, useSubmit } from '@remix-run/react'
 import { useUser } from '~/utils/misc'
 import { requireUser } from '~/utils/session.server'
+import useCopyToClipboard from '~/utils/hooks'
 
 export const loader: LoaderFunction = async ({ request }) => {
   await requireUser(request)
@@ -59,7 +61,7 @@ function Navbar({ username }: { username: string }) {
         ))}
       </ul>
       <div className="ml-auto flex items-center gap-4">
-        <Link to={`/${username}`}>Share</Link>
+        <SharePopover />
         <UserMenu />
       </div>
     </nav>
@@ -105,5 +107,56 @@ const UserMenu = () => {
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
+  )
+}
+
+function SharePopover() {
+  const user = useUser()
+  const [isCopied, copy] = useCopyToClipboard()
+  // TODO: get server side HOST
+  const txt = `http://localhost:3000/${user.username}`
+
+  const handleCopy = () => {
+    copy(txt)
+  }
+  return (
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <button className="text-slate-600" aria-label="Share menu">
+          Share
+        </button>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content
+          className="w-64 rounded-sm bg-white p-5 shadow"
+          sideOffset={5}
+          align="end"
+        >
+          <div className="flex flex-col gap-2">
+            <p className="mb-2 font-bold">Share your link</p>
+            <a
+              target="_blank"
+              href="http://localhost:3000/remixer"
+              rel="noreferrer"
+            >
+              Visit yuour profile
+            </a>
+            <button
+              onClick={handleCopy}
+              className="flex items-center justify-between"
+            >
+              <span>onelink/remixer</span>
+              <span className={isCopied ? 'text-green-500' : ''}>
+                {isCopied ? 'Copied' : 'Copy'}
+              </span>
+            </button>
+          </div>
+          <Popover.Close className="absolute top-4 right-4" aria-label="Close">
+            x
+          </Popover.Close>
+          <Popover.Arrow className="fill-white" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
   )
 }
