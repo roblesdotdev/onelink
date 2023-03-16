@@ -1,4 +1,4 @@
-export function YournameInput({
+export default function YournameInput({
   yourname,
   error,
   readonly = false,

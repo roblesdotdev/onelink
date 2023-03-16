@@ -15,14 +15,12 @@ import {
 } from '@remix-run/react'
 import type { ReactNode } from 'react'
 import tailwindStyles from '~/styles/tailwind.css'
-import vendorStyles from '~/styles/vendors.css'
 import { NotFound, ServerError } from './components/errors'
 import { getUserById } from './utils/auth.server'
 import { getSession, getSessionUser } from './utils/session.server'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: tailwindStyles },
-  { rel: 'stylesheet', href: vendorStyles },
 ]
 
 export const meta: MetaFunction = () => ({
