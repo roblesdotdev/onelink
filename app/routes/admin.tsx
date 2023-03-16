@@ -5,7 +5,7 @@ import { json } from '@remix-run/node'
 import { Link, NavLink, Outlet, useNavigate, useSubmit } from '@remix-run/react'
 import { useUser } from '~/utils/misc'
 import { requireUser } from '~/utils/session.server'
-import { useState } from 'react'
+import useCopyToClipboard from '~/utils/hooks'
 
 export const loader: LoaderFunction = async ({ request }) => {
   await requireUser(request)
@@ -112,23 +112,12 @@ const UserMenu = () => {
 
 function SharePopover() {
   const user = useUser()
-  const [isCopied, setIsCopied] = useState(false)
-
-  async function copyToClipboard(text: string) {
-    if ('clipboard' in navigator) {
-      return await navigator.clipboard.writeText(text)
-    }
-    return document.execCommand('copy', true, text)
-  }
+  const [isCopied, copy] = useCopyToClipboard()
+  // TODO: get server side HOST
+  const txt = `http://localhost:3000/${user.username}`
 
   const handleCopy = () => {
-    // TODO: get server side HOST
-    copyToClipboard(`http://localhost:3000/${user.username}`).then(() => {
-      setIsCopied(true)
-      setTimeout(() => {
-        setIsCopied(false)
-      }, 1000)
-    })
+    copy(txt)
   }
   return (
     <Popover.Root>
