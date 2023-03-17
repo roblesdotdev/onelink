@@ -43,9 +43,9 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Index() {
   return (
-    <div className="pb-10">
+    <div>
       <div className="px-3 py-6 sm:px-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between lg:mx-auto lg:max-w-screen-2xl">
           <Link to="/" prefetch="intent">
             <h1 className="text-lg font-bold">
               one<span className="text-slate-400">.</span>link
@@ -64,43 +64,48 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className="px-3 pt-16 text-center sm:mx-auto sm:max-w-xl">
-        <p className="mb-2 w-full text-sm font-bold text-blue-700 sm:text-lg">
-          JUST ONE LINK!
-        </p>
-        <h1 className="text-4xl font-bold sm:text-5xl sm:leading-tight">
-          The Amazing Link For Everithing
-        </h1>
-        <div className="py-6">
-          <Form
-            method="post"
-            autoComplete="off"
-            noValidate
-            autoCapitalize="off"
-            autoCorrect="off"
-            spellCheck="false"
-            className="flex flex-wrap gap-2 sm:flex-nowrap"
-          >
-            <YournameInput />
-            <button
-              type="submit"
-              className="w-full whitespace-nowrap rounded-md bg-slate-900 py-4 text-white sm:w-min sm:px-6"
+      <div className="px-3 pt-16 text-center sm:mx-auto sm:max-w-xl lg:flex lg:max-w-full lg:items-center lg:justify-center lg:gap-16 lg:text-start">
+        <div className="lg:max-w-xl">
+          <p className="mb-2 w-full text-sm font-bold text-blue-700 sm:text-lg">
+            JUST ONE LINK!
+          </p>
+          <h1 className="text-4xl font-bold sm:text-5xl sm:leading-tight">
+            The Amazing Link For Everithing
+          </h1>
+          <div className="py-6">
+            <Form
+              method="post"
+              autoComplete="off"
+              noValidate
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck="false"
+              className="flex flex-wrap gap-2 sm:flex-nowrap"
             >
-              Create My Link
-            </button>
-          </Form>
+              <YournameInput />
+              <button
+                type="submit"
+                className="w-full whitespace-nowrap rounded-md bg-slate-900 py-4 text-white sm:w-min sm:px-6"
+              >
+                Create My Link
+              </button>
+            </Form>
+          </div>
+          <p className="w-full text-slate-600 sm:text-lg">
+            It's free and take less than a minute.
+          </p>
         </div>
-        <p className="w-full text-slate-600 sm:text-lg">
-          It's free and take less than a minute.
-        </p>
+        <div className="hidden lg:block">
+          <img src="assets/listing.svg" className="w-96" alt="listing" />
+        </div>
       </div>
 
       {/* MARQUEE */}
-      <div className="relative mt-32 flex gap-2 overflow-x-hidden bg-white py-4 sm:mx-auto sm:max-w-xl sm:rounded-md">
+      <div className="relative mt-32 flex gap-2 overflow-x-hidden bg-white py-4 sm:mx-auto sm:max-w-xl sm:rounded-md lg:max-w-5xl">
         <ul className="flex animate-marquee items-center gap-2 pl-2">
           {MARQUEE_ITEMS.map(item => (
             <li
-              className="whitespace-nowrap rounded-full bg-slate-100 py-2 px-4 text-sm"
+              className="whitespace-nowrap rounded-full bg-slate-100 py-2 px-4 text-sm lg:px-6 lg:text-base"
               key={item.id}
             >
               <span>{item.title}</span>
@@ -110,7 +115,7 @@ export default function Index() {
         <ul className="absolute top-4 flex animate-marquee2 items-center gap-2 pl-2">
           {MARQUEE_ITEMS.map(item => (
             <li
-              className="whitespace-nowrap rounded-full bg-slate-100 py-2 px-4 text-sm"
+              className="whitespace-nowrap rounded-full bg-slate-100 py-2 px-4 text-sm lg:px-6 lg:text-base"
               key={item.id}
             >
               <span>{item.title}</span>
@@ -132,7 +137,7 @@ export default function Index() {
             subscriptions and more.
           </p>
 
-          <ul className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row">
+          <ul className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row lg:mx-auto lg:max-w-5xl">
             <li className="flex flex-col items-center gap-3 rounded-md bg-white px-4 py-12">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 font-bold text-white">
                 L
@@ -143,6 +148,17 @@ export default function Index() {
                 Make it right now. It's free.
               </p>
             </li>
+            <li className="hidden flex-col items-center gap-3 rounded-md bg-white px-4 py-12 lg:flex">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 font-bold text-white">
+                I
+              </span>
+              <h1 className="mt-4 text-xl font-bold">Share</h1>
+              <p className="text-slate-600 sm:text-lg">
+                Share your link anywhere. TikTok, Instagram, Twitter or your
+                personal website.
+              </p>
+            </li>
+
             <li className="flex flex-col items-center gap-3 rounded-md bg-white px-4 py-12">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 font-bold text-white">
                 I
@@ -181,7 +197,7 @@ export default function Index() {
       </div>
 
       <div className="px-3 pt-12">
-        <div className="rounded-md bg-slate-900 px-4 py-10 text-center text-white">
+        <div className="rounded-md bg-slate-900 px-4 py-10 text-center text-white lg:mx-auto lg:max-w-5xl">
           <h1 className="mb-4 text-2xl font-bold sm:text-3xl">
             Get started with one.link
           </h1>
@@ -200,7 +216,7 @@ export default function Index() {
         </div>
       </div>
 
-      <footer className="px-3 pt-12">
+      <footer className="mt-24 px-3 py-6 sm:px-6 lg:mx-auto lg:max-w-screen-2xl">
         <div className="flex items-center justify-between">
           <Link to="/" prefetch="intent">
             <h1 className="text-lg font-bold">
@@ -240,6 +256,8 @@ const MARQUEE_ITEMS = [
   'Programmers',
   'Designers',
   'Content Creators',
+  'Educators',
+  'Artists',
 ].map((item, idx) => ({
   id: idx + 1,
   title: item,
