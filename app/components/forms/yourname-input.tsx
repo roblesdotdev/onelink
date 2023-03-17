@@ -8,9 +8,9 @@ export default function YournameInput({
   readonly?: boolean
 }) {
   return (
-    <div className="flex flex-col">
-      <div className="flex rounded-sm bg-white text-lg ring-slate-900 focus-within:ring-2">
-        <p className="py-4 pl-3">
+    <div className="flex w-full flex-col">
+      <div className="flex w-full rounded-md bg-white text-lg ring-1 ring-inset ring-slate-200 focus-within:ring-2 focus-within:ring-slate-900">
+        <p className="py-4 pl-3 font-medium text-slate-600">
           <label htmlFor="yourname">onelink.lite/</label>
         </p>
         <p className="py-4 pr-3">
@@ -18,7 +18,7 @@ export default function YournameInput({
             placeholder="your name"
             name="yourname"
             id="yourname"
-            className="w-full font-medium outline-none placeholder:font-normal"
+            className="w-full font-medium text-slate-900 outline-none placeholder:font-normal"
             aria-errormessage="yourname-error"
             defaultValue={yourname}
             readOnly={readonly}
