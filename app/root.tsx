@@ -66,7 +66,7 @@ function Document({
       </head>
       <body className="min-h-screen w-full overflow-x-hidden antialiased">
         <div className=" bg-slate-50 text-slate-800">
-          <main className="min-h-screen">{children}</main>
+          <main>{children}</main>
         </div>
         <ScrollRestoration />
         <Scripts />
