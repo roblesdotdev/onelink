@@ -3,7 +3,7 @@ import { json } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { Form, Link } from '@remix-run/react'
 import invariant from 'tiny-invariant'
-import { YournameInput } from '~/components/lib'
+import { Button, ButtonLink, YournameInput } from '~/components/lib'
 import { getJoinInfoSession } from '~/utils/join.server'
 import { getSessionUser } from '~/utils/session.server'
 import { validateUsernameExistence } from '~/utils/validation'
@@ -55,12 +55,7 @@ export default function Index() {
             <Link to="/login" className="font-medium hover:underline">
               Log In
             </Link>
-            <Link
-              to="/signup"
-              className="rounded-md bg-slate-900 px-4 py-3 text-sm font-medium text-white"
-            >
-              Sign Up
-            </Link>
+            <ButtonLink to="/signup">Sign Up</ButtonLink>
           </div>
         </div>
       </div>
@@ -83,12 +78,7 @@ export default function Index() {
               className="flex flex-wrap gap-2 sm:flex-nowrap"
             >
               <YournameInput />
-              <button
-                type="submit"
-                className="w-full whitespace-nowrap rounded-md bg-slate-900 py-4 text-white sm:w-min sm:px-6"
-              >
-                Create My Link
-              </button>
+              <Button type="submit">Create My Link</Button>
             </Form>
           </div>
           <p className="w-full text-slate-600 sm:text-lg">
@@ -186,12 +176,7 @@ export default function Index() {
             find them easily. With just a few steps.
           </p>
           <div className="py-10">
-            <Link
-              className="rounded-md bg-slate-900 px-6 py-3 text-white sm:py-4 sm:text-lg"
-              to="/signup"
-            >
-              Sign up
-            </Link>
+            <ButtonLink to="/signup">Sign up</ButtonLink>
           </div>
         </div>
       </div>
@@ -206,12 +191,9 @@ export default function Index() {
             youtubers, gamers, developers, designers...
           </p>
           <div className="pt-10">
-            <Link
-              className="rounded-md bg-blue-700 py-3 px-6 text-white sm:py-4 sm:text-lg"
-              to="/signup"
-            >
+            <ButtonLink to="/signup" variation="secondary">
               Sign Up
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </div>

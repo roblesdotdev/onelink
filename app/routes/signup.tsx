@@ -3,7 +3,7 @@ import { json, redirect } from '@remix-run/node'
 import { Form, useLoaderData } from '@remix-run/react'
 import { Link } from '@remix-run/react'
 import invariant from 'tiny-invariant'
-import { YournameInput } from '~/components/lib'
+import { Button, ErrorLabel, Input, YournameInput } from '~/components/lib'
 import { sendEmail } from '~/utils/email.server'
 import { decrypt, encrypt } from '~/utils/encryption.server'
 import { getJoinInfoSession } from '~/utils/join.server'
@@ -186,8 +186,7 @@ function RegisterForm({ data }: { data: LoaderData }) {
         <YournameInput error={data.errors?.yourname} yourname={data.yourname} />
       </div>
       <div className="flex flex-col py-2">
-        <input
-          className="w-full rounded-md px-3 py-4"
+        <Input
           placeholder="Enter your email address..."
           type="text"
           name="email"
@@ -195,26 +194,13 @@ function RegisterForm({ data }: { data: LoaderData }) {
           aria-errormessage="email-error"
           aria-invalid={Boolean(errors?.email)}
         />
-        {errors?.email ? (
-          <span id="email-error" className="text-sm text-red-600">
-            {errors.email}
-          </span>
-        ) : null}
+        <ErrorLabel error={errors?.email} id="email-error" />
       </div>
 
-      {errors?.form ? (
-        <span id="form-error" className="text-sm text-red-600">
-          {errors.form}
-        </span>
-      ) : null}
+      <ErrorLabel error={errors?.form} id="form-error" />
 
       <div className="mt-4">
-        <button
-          type="submit"
-          className="rounded-md bg-black py-3 px-8 text-white"
-        >
-          Continue
-        </button>
+        <Button type="submit">Continue</Button>
       </div>
     </Form>
   )
