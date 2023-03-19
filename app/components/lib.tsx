@@ -1,3 +1,12 @@
+import type { LinkProps } from '@remix-run/react'
+import { Link } from '@remix-run/react'
+import clsx from 'clsx'
+import type {
+  ButtonHTMLAttributes,
+  HTMLAttributes,
+  InputHTMLAttributes,
+} from 'react'
+
 export function YournameInput({
   yourname,
   error,
@@ -25,11 +34,78 @@ export function YournameInput({
           />
         </p>
       </div>
-      {error ? (
-        <span id="yourname-error" className="text-sm text-red-600">
-          {error}
-        </span>
-      ) : null}
+      <ErrorLabel error={error} id="yourname-error" />
     </div>
+  )
+}
+
+export function Button({
+  children,
+  className,
+  ...other
+}: ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      className={clsx(
+        'w-full rounded-md bg-slate-900 py-4 px-6 text-white',
+        className,
+      )}
+      {...other}
+    >
+      {children}
+    </button>
+  )
+}
+
+export function ButtonLink({
+  to,
+  children,
+  className,
+  variation = 'primary',
+  ...other
+}: LinkProps & { variation?: 'primary' | 'secondary' }) {
+  return (
+    <Link
+      className={clsx(
+        'rounded-md bg-slate-900 px-4 py-3 text-white',
+        variation === 'secondary' && 'bg-blue-600',
+        className,
+      )}
+      to={to}
+      {...other}
+    >
+      {children}
+    </Link>
+  )
+}
+
+export function Input({
+  className,
+  ...other
+}: InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <input
+      className={clsx(
+        'w-full rounded-md px-6 py-4 text-lg outline-none ring-1 ring-inset ring-black/10 focus:ring-2 focus:ring-black',
+        className,
+      )}
+      {...other}
+    />
+  )
+}
+
+export function ErrorLabel({
+  className,
+  id,
+  error,
+}: Pick<HTMLAttributes<HTMLSpanElement>, 'id' | 'className'> & {
+  error?: string | null
+}) {
+  if (!error) return null
+
+  return (
+    <span id={id} className={clsx('text-sm text-red-600', className)}>
+      {error}
+    </span>
   )
 }

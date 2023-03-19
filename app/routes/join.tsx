@@ -3,7 +3,7 @@ import { redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
-import { YournameInput } from '~/components/lib'
+import { Button, ErrorLabel, Input, YournameInput } from '~/components/lib'
 import { createUser } from '~/utils/auth.server'
 import { getJoinInfoSession } from '~/utils/join.server'
 import { createUserSession } from '~/utils/session.server'
@@ -75,8 +75,7 @@ export default function Join() {
           <YournameInput yourname={data.yourname} readonly />
           <div className="flex flex-col py-2">
             <label htmlFor="password">Password</label>
-            <input
-              className="w-full rounded-md px-2 py-3"
+            <Input
               placeholder="Enter your password..."
               type="password"
               name="password"
@@ -84,16 +83,11 @@ export default function Join() {
               aria-describedby="password-error"
               aria-invalid={Boolean(errors?.password)}
             />
-            {errors?.password ? (
-              <span id="password-error" className="text-sm text-red-600">
-                {errors.password}
-              </span>
-            ) : null}
+            <ErrorLabel error={errors?.password} id="password-error" />
           </div>
           <div className="flex flex-col py-2">
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              className="w-full rounded-md px-2 py-3"
+            <Input
               placeholder="Confirm your password..."
               type="password"
               name="confirmPassword"
@@ -101,21 +95,16 @@ export default function Join() {
               aria-describedby="confirmPassword-error"
               aria-invalid={Boolean(errors?.confirmPassword)}
             />
-            {errors?.confirmPassword ? (
-              <span id="confirmPassword-error" className="text-sm text-red-600">
-                {errors.confirmPassword}
-              </span>
-            ) : null}
+            <ErrorLabel
+              error={errors?.confirmPassword}
+              id="confirmPassword-error"
+            />
           </div>
 
           <div className="mt-4">
-            <button
-              type="submit"
-              className="rounded-md bg-black py-3 px-8 text-white"
-              disabled={fetcher.state !== 'idle'}
-            >
+            <Button type="submit" disabled={fetcher.state !== 'idle'}>
               Register
-            </button>
+            </Button>
           </div>
         </div>
       </fetcher.Form>
