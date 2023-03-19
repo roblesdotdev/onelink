@@ -1,30 +1,65 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { useNavigation } from '@remix-run/react'
-import { useActionData } from '@remix-run/react'
-import { Form } from '@remix-run/react'
-import { useEffect, useState } from 'react'
-import type { LinksActionData } from '~/routes/admin/links'
+import type { ActionFunction } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from '@remix-run/react'
+import invariant from 'tiny-invariant'
+import { createLinks } from '~/utils/link.server'
+import { requireSessionUser } from '~/utils/session.server'
+import { validateTitle, validateUrl } from '~/utils/validation'
 
-export default function CreateForm() {
-  const [open, setOpen] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+type ActionData = {
+  status: 'error' | 'success'
+  errors?: {
+    url?: string | null
+    title?: string | null
+    form?: string | null
+  } | null
+}
+
+export const action: ActionFunction = async ({ request }) => {
+  const userId = await requireSessionUser(request)
+  const formData = await request.formData()
+  const { url, title } = Object.fromEntries(formData)
+  invariant(typeof url === 'string', 'url type is invalid')
+  invariant(typeof title === 'string', 'title type is invalid')
+
+  const errors = {
+    url: validateUrl(url),
+    title: validateTitle(title),
+  }
+
+  if (Object.values(errors).some(Boolean)) {
+    return json<ActionData>({ status: 'error', errors }, { status: 400 })
+  }
+
+  const link = await createLinks({ url, title, userId })
+
+  if (link) return redirect('/admin/links')
+
+  return json<ActionData>(
+    { status: 'error', errors: { form: 'Something went wrong' } },
+    { status: 400 },
+  )
+}
+
+export default function NewLink() {
+  const navigate = useNavigate()
   const navigation = useNavigation()
-  const actionData = useActionData<LinksActionData>()
+  const actionData = useActionData<ActionData>()
   const errors = actionData?.errors
-  const isIdle = navigation.state === 'idle'
-  const isSuccess = actionData?.status === 'success'
 
-  useEffect(() => {
-    if (isSubmitted && isSuccess && isIdle) setOpen(false)
-  }, [isSubmitted, isSuccess, isIdle, setOpen])
+  const onDismiss = () => {
+    navigate('/admin/links')
+  }
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <button className="rounded-sm bg-black px-6 py-3 text-sm font-bold text-white">
-          New Link
-        </button>
-      </Dialog.Trigger>
+    <Dialog.Root open={true} onOpenChange={onDismiss}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/10" />
         <Dialog.Content className="fixed inset-x-0 top-16 m-auto w-[90vw] max-w-[450px] rounded-sm bg-white p-6 shadow">
@@ -35,11 +70,7 @@ export default function CreateForm() {
               noValidate
               autoCapitalize="off"
               autoComplete="off"
-              onSubmit={() => {
-                setIsSubmitted(true)
-              }}
             >
-              <input type="hidden" name="action" defaultValue="create" />
               <div className="flex flex-col">
                 <label htmlFor="url">Url</label>
                 <input

@@ -1,8 +1,8 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
-import { CreateForm, DeleteForm, ToggleForm } from '~/components/forms'
+import { DeleteForm, ToggleForm } from '~/components/forms'
 import {
   createLinks,
   deleteLink,
@@ -71,7 +71,8 @@ export default function Links() {
 
   return (
     <div>
-      <CreateForm />
+      <Outlet />
+      <Link to="new">Create</Link>
       <div>
         {links.map(link => (
           <div key={link.id} className="rounded-md bg-white p-4 shadow">
