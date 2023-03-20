@@ -63,8 +63,8 @@ function Document({
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen w-full overflow-x-hidden antialiased">
-        <div className=" bg-slate-50 text-slate-800">
+      <body className="w-full overflow-x-hidden antialiased">
+        <div className=" min-h-screen bg-slate-50 text-slate-800">
           <main>{children}</main>
         </div>
         <ScrollRestoration />

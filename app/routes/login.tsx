@@ -65,10 +65,15 @@ export default function LoginRoute() {
   const errors = fetcher.data?.errors
 
   return (
-    <div>
+    <div className="py-6">
       <fetcher.Form method="post" noValidate aria-describedby="form-error">
-        <div className="mx-auto max-w-xl px-4 pt-16 pb-4">
-          <h1 className="mb-4 text-xl font-bold">Login</h1>
+        <div className="mx-auto max-w-xl px-4 pt-12 pb-4">
+          <div className="mb-6 flex flex-col gap-2">
+            <h1 className="text-3xl font-bold">
+              Welcome back to <span className="text-blue-700">onelink</span>
+            </h1>
+            <p className="text-lg">Sign in to your account bellow.</p>
+          </div>
           <YournameInput error={errors?.yourname} />
           <div className="mt-2 flex flex-col py-2">
             <Input

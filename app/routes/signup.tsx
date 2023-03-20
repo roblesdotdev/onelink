@@ -156,11 +156,20 @@ export default function Signup() {
   const isSuccess = data.status === 'success'
 
   return (
-    <div>
-      <div className="mx-auto max-w-xl px-4 pt-16 pb-4">
-        <h1 className="mb-4 text-xl font-bold">Create your account</h1>
+    <div className="py-6">
+      <div className="mx-auto max-w-xl px-4 pt-12 pb-4">
+        <div className="mb-4 flex flex-col gap-2">
+          <h1 className="text-3xl font-bold">
+            Create your <span className="text-blue-700">onelink</span> account
+          </h1>
+          <p className="text-lg">
+            Choose your username and enter your email to continue.
+          </p>
+        </div>
         {isSuccess ? (
-          <h2>Please check your email</h2>
+          <div className="bg-slate-200 px-4 py-6 text-lg font-bold">
+            <h2>Please check your email to continue.</h2>
+          </div>
         ) : (
           <RegisterForm data={data} />
         )}
@@ -181,7 +190,6 @@ function RegisterForm({ data }: { data: LoaderData }) {
   const errors = data.errors
   return (
     <Form method="post" noValidate aria-errormessage="form-error">
-      <h2>Choose your username and enter your email to continue.</h2>
       <div className="py-2">
         <YournameInput error={data.errors?.yourname} yourname={data.yourname} />
       </div>
