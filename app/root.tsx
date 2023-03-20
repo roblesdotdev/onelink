@@ -46,7 +46,6 @@ export const loader: LoaderFunction = async ({ request }) => {
       await signOut()
     }
   }
-
   return json<RootLoaderData>({ user })
 }
 

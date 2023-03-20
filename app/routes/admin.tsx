@@ -2,22 +2,32 @@ import * as Popover from '@radix-ui/react-popover'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import type { LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { Link, NavLink, Outlet, useNavigate, useSubmit } from '@remix-run/react'
-import { useUser } from '~/utils/misc'
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLoaderData,
+  useNavigate,
+  useSubmit,
+} from '@remix-run/react'
 import { requireUser } from '~/utils/session.server'
 import useCopyToClipboard from '~/utils/hooks'
+import { getDomainUrl } from '~/utils/misc.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  await requireUser(request)
+  const user = await requireUser(request)
+  const host = getDomainUrl(request)
 
-  return json({})
+  return json({
+    shareLink: `${host}/${user.username}`,
+  })
 }
 
 export default function Admin() {
-  const user = useUser()
+  const { shareLink } = useLoaderData()
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar username={user.username} />
+      <Navbar shareLink={`${shareLink}`} />
       <div className="px-4">
         <Outlet />
       </div>
@@ -40,7 +50,7 @@ const LINKS = [
   },
 ]
 
-function Navbar({ username }: { username: string }) {
+function Navbar({ shareLink }: { shareLink: string }) {
   return (
     <nav className="flex items-center py-4 px-6">
       <div className="mr-4 font-bold">
@@ -61,7 +71,7 @@ function Navbar({ username }: { username: string }) {
         ))}
       </ul>
       <div className="ml-auto flex items-center gap-4">
-        <SharePopover />
+        <SharePopover shareLink={shareLink} />
         <UserMenu />
       </div>
     </nav>
@@ -110,14 +120,11 @@ const UserMenu = () => {
   )
 }
 
-function SharePopover() {
-  const user = useUser()
+function SharePopover({ shareLink }: { shareLink: string }) {
   const [isCopied, copy] = useCopyToClipboard()
-  // TODO: get server side HOST
-  const txt = `http://localhost:3000/${user.username}`
 
   const handleCopy = () => {
-    copy(txt)
+    copy(shareLink)
   }
   return (
     <Popover.Root>

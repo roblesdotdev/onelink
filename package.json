@@ -28,6 +28,7 @@
     "@remix-run/serve": "^1.14.0",
     "bcryptjs": "^2.4.3",
     "clsx": "^1.2.1",
+    "copy-to-clipboard": "^3.3.3",
     "error-stack-parser": "^2.1.4",
     "isbot": "^3.6.5",
     "react": "^18.2.0",
