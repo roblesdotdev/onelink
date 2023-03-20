@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+[type='checkbox'],
+[type='radio'] {
+  @apply accent-slate-900;
+}

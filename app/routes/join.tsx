@@ -68,13 +68,18 @@ export default function Join() {
   const fetcher = useFetcher()
   const errors = fetcher.data?.errors
   return (
-    <div>
+    <div className="py-6">
       <fetcher.Form method="post" noValidate>
-        <div className="mx-auto max-w-xl px-4 pt-16 pb-4">
-          <h1 className="mb-4 text-xl font-bold">Just one step</h1>
-          <YournameInput yourname={data.yourname} readonly />
-          <div className="flex flex-col py-2">
-            <label htmlFor="password">Password</label>
+        <div className="mx-auto max-w-xl px-4 pt-12 pb-4">
+          <div className="mb-4 flex flex-col gap-2">
+            <h1 className="text-3xl font-bold">Just one step away</h1>
+            <p>Choose your password for your account.</p>
+          </div>
+
+          <div className="mb-2">
+            <YournameInput yourname={data.yourname} readonly />
+          </div>
+          <div className="mb-2 flex flex-col">
             <Input
               placeholder="Enter your password..."
               type="password"
@@ -85,8 +90,7 @@ export default function Join() {
             />
             <ErrorLabel error={errors?.password} id="password-error" />
           </div>
-          <div className="flex flex-col py-2">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+          <div className="mb-2 flex flex-col">
             <Input
               placeholder="Confirm your password..."
               type="password"
@@ -100,10 +104,15 @@ export default function Join() {
               id="confirmPassword-error"
             />
           </div>
+          <div className="mt-6 py-2 text-sm text-slate-500">
+            <p>
+              By clicking Create account, you agree to Terms and Conditions.
+            </p>
+          </div>
 
           <div className="mt-4">
             <Button type="submit" disabled={fetcher.state !== 'idle'}>
-              Register
+              Create account
             </Button>
           </div>
         </div>
